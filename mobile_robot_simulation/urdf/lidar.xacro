@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- gazebo plugin for lidar-->
+
+  <gazebo reference="lidar">
+    <sensor type="ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>20</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.570796</min_angle>
+            <max_angle>1.570796</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>10.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <!--<topicName>/robo_car/laser/scan</topicName>-->
+        <topicName>scan</topicName>
+        <frameName>lidar</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+
+
+
+
+<!-- gazebo color-->
+<gazebo reference="lidar">
+    <material>Gazebo/Orange</material>
+</gazebo>
+
+<!-- lidar sample urdf-->
+
+    <joint name="lidar_joint" type="fixed">
+        <parent link="castor"/>
+        <child link="lidar"/>
+        <origin xyz="0 0 0.285" rpy="0 0 0"/>
+    </joint>
+
+    <link name="lidar">
+        <visual>
+            <geometry>
+               <cylinder radius="0.03" length="0.05"/>
+            </geometry>   
+            <material name="orange"/>
+        </visual> 
+        <collision>
+            <geometry>
+               <cylinder radius="0.03" length="0.05"/>
+            </geometry>   
+        </collision> 
+        <xacro:cylinder_inertia mass="0.1" length="0.5" radius="0.03"> 
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:cylinder_inertia>
+    </link>
+
+</robot>

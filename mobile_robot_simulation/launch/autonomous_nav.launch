@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  <include file="$(find mobile_robot_simulation)/launch/gazebo.launch" />  
+  <arg name="map_file" default="$(find mobile_robot_simulation)/maps/new_map.yaml"/>
+
+  <!--<remap from="/move_base/global_costmap/range_sensor_layer/rangeSonar" to="/rangeSonar"/>-->
+  
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" >
+  </node>
+
+  <!--<node name="rviz" pkg="rviz" type="rviz"  args="-d $(find mobile_robot_simulation)/config/setting.rviz"/>-->
+
+
+  <include file="$(find mobile_robot_simulation)/launch/amcl.launch" />
+  <include file="$(find mobile_robot_simulation)/launch/move_base.launch" /> 
+  <include file="$(find mobile_robot_simulation)/launch/rviz_nav.launch" /> 
+
+</launch>
